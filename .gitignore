@@ -1,3 +1,6 @@
+# Build output / distribution
+dist/
+
 # Python virtual environments
 .venv/
 venv/
