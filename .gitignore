@@ -1,0 +1,22 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+**/__pycache__/
+
+# Secret keys and environment files
+*.secret_key
+.webui_secret_key
+.env
+.env.*
+
+# Miscellaneous
+openwebui/
+unnamed.jpg
+
+# OS metadata
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
