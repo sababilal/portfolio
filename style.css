@@ -284,23 +284,39 @@ nav .container {
 /* Mobile hamburger */
 .nav-toggle {
     display: none;
-    background: transparent;
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.06) !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 10px !important;
+    width: 42px !important;
+    height: 42px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
     -webkit-tap-highlight-color: transparent;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0 !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5px;
     z-index: 1001;
+    transition: background var(--t-fast), border-color var(--t-fast);
+}
+.nav-toggle:hover,
+.nav-toggle:active,
+.nav-toggle.is-open {
+    background: rgba(99, 102, 241, 0.18) !important;
+    background-color: rgba(99, 102, 241, 0.18) !important;
+    border-color: rgba(99, 102, 241, 0.4) !important;
 }
 .nav-toggle span {
     display: block;
-    width: 22px; height: 2px;
-    background: var(--text-primary);
+    width: 20px;
+    height: 2px;
+    background: #f0f4ff !important;
     border-radius: 2px;
     transition: transform var(--t-med), opacity var(--t-med);
     transform-origin: center;
