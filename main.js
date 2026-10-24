@@ -50,12 +50,19 @@ navToggle?.addEventListener('click', () => {
     navToggle.classList.toggle('is-open', open);
 });
 
-/* Close mobile menu when a link is clicked */
+/* Close mobile menu when a link is clicked or clicking outside */
 navLinksBox?.querySelectorAll('.nav-link').forEach((link) => {
     link.addEventListener('click', () => {
         navLinksBox.classList.remove('open');
         navToggle?.classList.remove('is-open');
     });
+});
+
+document.addEventListener('click', (e) => {
+    if (navLinksBox && navToggle && navbar && !navbar.contains(e.target)) {
+        navLinksBox.classList.remove('open');
+        navToggle.classList.remove('is-open');
+    }
 });
 
 /* ── Cursor glow (desktop only) ── */
