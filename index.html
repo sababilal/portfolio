@@ -4,255 +4,391 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of a Creative Developer focused on building premium web experiences.">
-    <title>Portfolio | Creative Developer</title>
+    <meta name="description" content="Saba Bilal — Junior Research Fellow specialising in AI, Computer Vision, and EdTech. Building intelligent grading systems and deep learning solutions.">
+    <meta name="keywords" content="Saba Bilal, AI Researcher, EdTech, Computer Vision, Deep Learning, YOLO, Portfolio">
+    <meta property="og:title" content="Saba Bilal | AI & EdTech Researcher">
+    <meta property="og:description" content="Junior Research Fellow at the intersection of Artificial Intelligence and Education Technology.">
+    <title>Saba Bilal | AI & EdTech Researcher</title>
 
-    <!-- Fonts -->
+    <!-- Preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Navigation (Placeholder) -->
-    <nav style="position: fixed; top: 0; width: 100%; padding: 1.5rem; backdrop-filter: blur(10px); z-index: 100;">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <div
-                style="font-weight: 700; font-size: 1.5rem; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;">
-                Saba Bilal.</div>
-            <div class="nav-links">
-                <a href="#about" class="nav-link">About</a>
+    <!-- ============ NAVIGATION ============ -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="#" class="nav-logo">Saba Bilal.</a>
+
+            <div class="nav-links" id="nav-links">
+                <a href="#about"      class="nav-link">About</a>
                 <a href="#experience" class="nav-link">Experience</a>
-                <a href="#projects" class="nav-link">Work</a>
-                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#education"  class="nav-link">Education</a>
+                <a href="#skills"     class="nav-link">Skills</a>
+                <a href="#projects"   class="nav-link">Projects</a>
+                <a href="#contact"    class="nav-link">Contact</a>
             </div>
+
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="section hero"
-            style="min-height: 100vh; display: flex; align-items: center; padding-top: var(--header-height);">
-            <div class="container">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-inner">
+
+                <!-- Left: Text -->
                 <div class="hero-text">
-                    <h1>Saba Bilal.</h1>
-                    <h2
-                        style="font-size: 2rem; color: var(--text-primary); margin-bottom: 1rem; background: none; -webkit-text-fill-color: initial;">
-                        Junior Research Fellow</h2>
-                    <p style="font-size: 1.25rem;">AI & EdTech Researcher. Building intelligent grading systems to
-                        redefine
-                        the future of academic assessment.</p>
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem;" class="btn-group">
-                        <a href="#projects" class="btn btn-primary">View Research</a>
-                        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                    <div class="hero-eyebrow reveal">Junior Research Fellow</div>
+
+                    <h1 class="hero-title reveal reveal-delay-1">
+                        Saba Bilal.
+                    </h1>
+
+                    <p class="hero-subtitle reveal reveal-delay-2">
+                        AI &amp; EdTech Researcher.
+                        <span>Building intelligent systems</span><br>
+                        that redefine the future.
+                    </p>
+
+                    <p class="hero-description reveal reveal-delay-3">
+                        I leverage deep learning and computer vision to solve real-world problems — from automated academic grading to precision agriculture and medical imaging.
+                    </p>
+
+                    <div class="hero-cta reveal reveal-delay-4">
+                        <a href="#projects" class="btn btn-primary">View Research ↗</a>
+                        <a href="#contact"  class="btn btn-ghost">Get in Touch</a>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <img src="profile.png" alt="Saba Bilal - AI Researcher" class="profile-img">
-                </div>
-            </div>
-        </section>
 
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <div style="max-width: 800px;">
-                    <h2>About Me</h2>
-                    <p>I am a Junior Research Fellow working at the intersection of Artificial Intelligence and
-                        Education Technology. My focus is on leveraging data science and deep learning to solve
-                        real-world problems.</p>
-                    <br>
-                    <p>Currently, I am building intelligent grading systems to redefine the future of academic
-                        assessment through automation and data science.</p>
-                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Experience Section -->
-        <section id="experience" class="section" style="background: var(--bg-secondary);">
-            <div class="container">
-                <h2 style="text-align: center; margin-bottom: 3rem;">Experience</h2>
-                <div class="timeline">
-                    <!-- Job 1 -->
-                    <div class="timeline-item">
-                        <span class="timeline-dot"></span>
-                        <span class="timeline-date">Present</span>
+    <!-- ============ ABOUT ============ -->
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+
+                <div class="about-text reveal">
+                    <div class="section-header">
+                        <h2>
+                            <span class="section-label">Who I Am</span>
+                            About Me
+                        </h2>
+                        <div class="section-divider"></div>
+                    </div>
+
+                    <p>I am a <strong style="color:var(--text-primary)">Junior Research Fellow</strong> working at the exciting intersection of Artificial Intelligence and Education Technology, currently based at SKUAST Kashmir.</p>
+
+                    <p style="margin-top:1.25rem">My focus is on leveraging <strong style="color:var(--text-primary)">data science and deep learning</strong> to solve real-world problems — from intelligent grading systems to agricultural technology and medical image analysis.</p>
+
+                </div>
+
+                <div class="about-stats reveal reveal-delay-2">
+                    <div class="stat-card">
+                        <div class="stat-number">4+</div>
+                        <div class="stat-label">Research Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2×</div>
+                        <div class="stat-label">GATE Qualified</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">🥇</div>
+                        <div class="stat-label">Gold Medalist</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">M.Tech</div>
+                        <div class="stat-label">NIT Srinagar</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>
+                    <span class="section-label">Career</span>
+                    Experience
+                </h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="timeline-wrapper">
+
+                <div class="timeline-entry reveal reveal-delay-1">
+                    <div class="timeline-marker">
+                        <div class="timeline-dot"></div>
+                    </div>
+                    <div class="timeline-body">
+                        <span class="timeline-date">2023 – Present</span>
                         <h3>Junior Research Fellow</h3>
-                        <h4>SKUAST Kashmir (Division of Food Science and Technology), Rutag Centre</h4>
-                        <p>Working on intelligent grading systems and agricultural technology solutions.</p>
+                        <h4>SKUAST Kashmir — Division of Food Science &amp; Technology, Rutag Centre</h4>
+                        <p>Building intelligent grading systems for quality control in food technology. Developing computer vision pipelines for agricultural produce assessment using YOLO-based object detection.</p>
                     </div>
-                    <!-- Job 2 -->
-                    <div class="timeline-item">
-                        <span class="timeline-dot"></span>
+                </div>
+
+                <div class="timeline-entry reveal reveal-delay-2">
+                    <div class="timeline-marker">
+                        <div class="timeline-dot"></div>
+                    </div>
+                    <div class="timeline-body">
                         <span class="timeline-date">Previous</span>
                         <h3>Research Assistant</h3>
                         <h4>Islamic University of Science and Technology</h4>
-                        <p>Contributed to academic research projects and technical implementations.</p>
+                        <p>Contributed to academic research projects in machine learning and technical implementations within an interdisciplinary team.</p>
                     </div>
                 </div>
+
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Education Section -->
-        <section id="education" class="section">
-            <div class="container">
-                <h2 style="text-align: center; margin-bottom: 3rem;">Education</h2>
-                <div class="project-grid" style="margin-top: 0;">
-                    <article class="card">
-                        <span class="timeline-date">2023</span>
-                        <h3>M.Tech in Communication & IT</h3>
-                        <p style="margin-bottom: 0.5rem;">National Institute of Technology (NIT) Srinagar</p>
-                    </article>
-                    <article class="card" style="border-left: 4px solid var(--accent-primary);">
-                        <span class="timeline-date">2020</span>
-                        <h3>B.Tech in Computer Science</h3>
-                        <p style="margin-bottom: 0.5rem;">University of Kashmir</p>
-                        <div class="tags">
-                            <span class="tag" style="background: var(--accent-primary); color: white;">GOLD
-                                MEDALIST</span>
-                        </div>
-                    </article>
-                </div>
-                <div class="project-grid" style="margin-top: 2.5rem;">
-                    <article class="card" style="border-left: 4px solid var(--accent-secondary);">
-                        <span class="timeline-date">2020 & 2021</span>
-                        <h3>GATE Qualified</h3>
-                        <p style="margin-bottom: 0.5rem;">Computer Science & Information Technology</p>
-                        <div class="tags">
-                            <span class="tag"
-                                style="background: rgba(139, 92, 246, 0.1); color: var(--accent-secondary);">National
-                                Level Exam</span>
-                        </div>
-                    </article>
-                </div>
+    <!-- ============ EDUCATION ============ -->
+    <section id="education">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>
+                    <span class="section-label">Academic</span>
+                    Education
+                </h2>
+                <div class="section-divider"></div>
             </div>
-        </section>
 
-        <!-- Skills Section -->
-        <section id="skills" class="section" style="background: var(--bg-secondary);">
-            <div class="container">
-                <h2 style="text-align: center; margin-bottom: 3rem;">Technical Arsenal</h2>
-                <div class="skills-grid">
-                    <div class="skill-card">Python</div>
-                    <div class="skill-card">Deep Learning</div>
-                    <div class="skill-card">Computer Vision</div>
-                    <div class="skill-card">YOLO</div>
-                    <div class="skill-card">TensorFlow/PyTorch</div>
-                    <div class="skill-card">Web Development</div>
-                    <div class="skill-card">Data Science</div>
-                    <div class="skill-card">Research Writing</div>
+            <div class="edu-grid">
+
+                <div class="edu-card reveal reveal-delay-1">
+                    <span class="edu-year">2021 – 2023</span>
+                    <h3>M.Tech — Communication &amp; IT</h3>
+                    <p>National Institute of Technology (NIT) Srinagar</p>
                 </div>
+
+                <div class="edu-card reveal reveal-delay-2">
+                    <span class="edu-year">2016 – 2020</span>
+                    <h3>B.Tech — Computer Science</h3>
+                    <p>University of Kashmir</p>
+                    <span class="badge-pill badge-gold">🥇 Gold Medalist</span>
+                </div>
+
+                <div class="edu-card reveal reveal-delay-3">
+                    <span class="edu-year">2020 &amp; 2021</span>
+                    <h3>GATE Qualified</h3>
+                    <p>Computer Science &amp; Information Technology</p>
+                    <span class="badge-pill badge-blue">National Level Exam</span>
+                </div>
+
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <div class="container">
-                <h2>Selected Projects</h2>
-                <div class="bento-grid">
-                    <!-- Project 1: Featured -->
-                    <article class="card featured">
-                        <div class="card-icon">01</div>
-                        <div class="card-content">
-                            <h3>Breast Cancer Classification</h3>
-                            <p>Medical image analysis using advanced Deep Learning models. Utilized EfficientNet and
-                                MobileNet for high-accuracy classification in IoMT contexts.</p>
-                            <div class="tags">
-                                <span class="tag">Deep Learning</span>
-                                <span class="tag">EfficientNet</span>
-                                <span class="tag">MobileNet</span>
-                                <span class="tag">IoMT</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 2 -->
-                    <article class="card">
-                        <div class="card-icon">02</div>
-                        <div class="card-content">
-                            <h3>Apple Leaf Disease Detection</h3>
-                            <p>Computer vision system utilizing YOLO algorithms to detect and classify diseases in apple
-                                leaves.</p>
-                            <div class="tags">
-                                <span class="tag">YOLO</span>
-                                <span class="tag">Computer Vision</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 3 -->
-                    <article class="card">
-                        <div class="card-icon">03</div>
-                        <div class="card-content">
-                            <h3>Walnut Kernel Detection</h3>
-                            <p>Object detection system for quality control in food processing. Grading walnut kernels
-                                using
-                                YOLO models.</p>
-                            <div class="tags">
-                                <span class="tag">YOLO</span>
-                                <span class="tag">Object Detection</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project 4: Full Width on mobile, spanned on desktop -->
-                    <article class="card featured" style="background: linear-gradient(135deg, #f8fafc, #eff6ff);">
-                        <div class="card-icon">04</div>
-                        <div class="card-content">
-                            <h3>Online Food Delivery System</h3>
-                            <p>A comprehensive platform for food ordering and delivery management. Features real-time
-                                tracking, order management, and detailed analytics.</p>
-                            <div class="tags">
-                                <span class="tag">Full Stack</span>
-                                <span class="tag">Web Dev</span>
-                                <span class="tag">Database</span>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+    <!-- ============ SKILLS ============ -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>
+                    <span class="section-label">Expertise</span>
+                    Technical Skills
+                </h2>
+                <div class="section-divider"></div>
             </div>
-        </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="container" style="max-width: 600px; margin: 0;">
-                <h2>Let's Connect</h2>
-                <p style="margin-bottom: 2rem;">Interested in my research or collaboration? Drop me a message.</p>
+            <div class="skills-wrapper">
 
-                <div style="margin-bottom: 2rem;">
-                    <a href="mailto:sabarangrez77@gmail.com"
-                        style="color: var(--accent-primary); font-size: 1.2rem; text-decoration: none; font-weight: 500;">sabarangrez77@gmail.com</a>
+                <div class="skills-category reveal reveal-delay-1">
+                    <h4>AI &amp; Machine Learning</h4>
+                    <div class="skills-grid">
+                        <span class="skill-pill"><span class="skill-icon">🧠</span> Deep Learning</span>
+                        <span class="skill-pill"><span class="skill-icon">👁️</span> Computer Vision</span>
+                        <span class="skill-pill"><span class="skill-icon">🎯</span> YOLO</span>
+                        <span class="skill-pill"><span class="skill-icon">🔥</span> PyTorch</span>
+                        <span class="skill-pill"><span class="skill-icon">📦</span> TensorFlow</span>
+                        <span class="skill-pill"><span class="skill-icon">🏥</span> Medical Imaging</span>
+                    </div>
                 </div>
 
-                <form action="mailto:sabarangrez77@gmail.com" method="POST" enctype="text/plain">
+                <div class="skills-category reveal reveal-delay-2">
+                    <h4>Programming &amp; Data</h4>
+                    <div class="skills-grid">
+                        <span class="skill-pill"><span class="skill-icon">🐍</span> Python</span>
+                        <span class="skill-pill"><span class="skill-icon">📊</span> Data Science</span>
+                        <span class="skill-pill"><span class="skill-icon">📈</span> Data Analysis</span>
+                        <span class="skill-pill"><span class="skill-icon">🗄️</span> Databases</span>
+                    </div>
+                </div>
+
+                <div class="skills-category reveal reveal-delay-3">
+                    <h4>Research &amp; Development</h4>
+                    <div class="skills-grid">
+                        <span class="skill-pill"><span class="skill-icon">✍️</span> Research Writing</span>
+                        <span class="skill-pill"><span class="skill-icon">🌐</span> Web Development</span>
+                        <span class="skill-pill"><span class="skill-icon">🌾</span> AgriTech</span>
+                        <span class="skill-pill"><span class="skill-icon">📡</span> IoMT</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>
+                    <span class="section-label">Portfolio</span>
+                    Selected Projects
+                </h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="projects-bento">
+
+                <!-- Featured -->
+                <article class="proj-card featured reveal reveal-delay-1">
+                    <span class="proj-num">01 — Featured</span>
+                    <h3>Breast Cancer Classification</h3>
+                    <p>Medical image analysis using advanced Deep Learning models. Utilised EfficientNet and MobileNet architectures for high-accuracy classification within IoMT (Internet of Medical Things) contexts, enabling faster diagnostic support.</p>
+                    <div class="proj-tags">
+                        <span class="proj-tag">Deep Learning</span>
+                        <span class="proj-tag">EfficientNet</span>
+                        <span class="proj-tag">MobileNet</span>
+                        <span class="proj-tag">IoMT</span>
+                        <span class="proj-tag">Healthcare AI</span>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="proj-card reveal reveal-delay-2">
+                    <span class="proj-num">02</span>
+                    <h3>Apple Leaf Disease Detection</h3>
+                    <p>Computer vision system using YOLO algorithms to detect and classify diseases in apple leaves, enabling early intervention for precision agriculture.</p>
+                    <div class="proj-tags">
+                        <span class="proj-tag">YOLO</span>
+                        <span class="proj-tag">Computer Vision</span>
+                        <span class="proj-tag">AgriTech</span>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="proj-card reveal reveal-delay-1">
+                    <span class="proj-num">03</span>
+                    <h3>Walnut Kernel Detection</h3>
+                    <p>Object detection system for quality control in food processing — grading walnut kernels using YOLO models for automated industrial assessment.</p>
+                    <div class="proj-tags">
+                        <span class="proj-tag">YOLO</span>
+                        <span class="proj-tag">Object Detection</span>
+                        <span class="proj-tag">Food Tech</span>
+                    </div>
+                </article>
+
+                <!-- Project 4: Featured -->
+                <article class="proj-card featured reveal reveal-delay-2">
+                    <span class="proj-num">04 — Full Stack</span>
+                    <h3>Online Food Delivery System</h3>
+                    <p>A comprehensive platform for food ordering and delivery management. Features real-time tracking, order management, and detailed analytics — from database design to responsive front-end.</p>
+                    <div class="proj-tags">
+                        <span class="proj-tag">Full Stack</span>
+                        <span class="proj-tag">Web Dev</span>
+                        <span class="proj-tag">Database Design</span>
+                        <span class="proj-tag">Real-time</span>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact">
+        <div class="contact-glow-bg"></div>
+        <div class="container">
+            <div class="contact-inner">
+
+                <div class="section-header reveal" style="text-align:center;">
+                    <h2 style="display:block;">
+                        <span class="section-label" style="display:block; text-align:center;">Get in Touch</span>
+                        Let's Connect
+                    </h2>
+                    <div class="section-divider" style="margin: 0.75rem auto 0;"></div>
+                </div>
+
+                <p class="contact-description reveal reveal-delay-1">
+                    Interested in collaborating on research, discussing AI projects, or just saying hello? I'd love to hear from you — I'll reply directly to your email.
+                </p>
+
+
+
+                <!-- ── Web3Forms contact form ──────────────────────────────
+                     Your email is NEVER in this HTML. Replace the
+                     access_key value below with your own key from
+                     https://web3forms.com  (free, takes 30 seconds).
+                ──────────────────────────────────────────────────────── -->
+                <form id="contact-form" class="contact-form reveal reveal-delay-3" novalidate>
+
+                    <!-- Web3Forms access key — NOT your email -->
+                    <input type="hidden" name="access_key" value="8adc6dc2-ee94-4f89-8bf6-6efef6ed8945">
+                    <!-- Custom subject line in the email you receive -->
+                    <input type="hidden" name="subject" value="New message from portfolio — Saba Bilal">
+                    <!-- Honeypot anti-spam field (must stay empty) -->
+                    <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cf-name" class="form-label">Your Name</label>
+                            <input type="text" id="cf-name" name="name"
+                                class="form-input" placeholder="Jane Smith" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-email" class="form-label">Your Email</label>
+                            <input type="email" id="cf-email" name="email"
+                                class="form-input" placeholder="jane@example.com" required autocomplete="email">
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+                        <label for="cf-message" class="form-label">Message</label>
+                        <textarea id="cf-message" name="message"
+                            class="form-input form-textarea"
+                            placeholder="Tell me about your project or idea…" required rows="5"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea id="message" name="message" class="form-input"
-                            placeholder="Discuss a project or research..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+
+                    <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
+                        <span class="btn-text">Send Message</span>
+                        <span class="btn-loader" aria-hidden="true"></span>
+                    </button>
+
                 </form>
-            </div>
-        </section>
-    </main>
 
+                <!-- Toast notification -->
+                <div id="form-toast" class="form-toast" role="alert" aria-live="polite"></div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 Portfolio. Crafted with intention.</p>
+            <div class="footer-inner">
+                <span class="footer-logo">Saba Bilal.</span>
+                <p>Crafted with <span class="footer-heart">♥</span> &amp; purpose &mdash; &copy; 2026</p>
+                <p>AI &amp; EdTech Researcher, Kashmir</p>
+            </div>
         </div>
     </footer>
 
