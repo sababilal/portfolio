@@ -148,6 +148,34 @@ contactForm?.addEventListener('submit', async (e) => {
 
     setLoading(true);
 
+    /* ── SILENT PAUSE MODE ──
+       Simulate submission delay & show success toast without sending emails to your inbox.
+       Also silently stores messages in localStorage in case you want to view them later.
+       To resume live emails anytime, just change EMAILS_PAUSED to false.
+    */
+    const EMAILS_PAUSED = true;
+
+    if (EMAILS_PAUSED) {
+        try {
+            const saved = JSON.parse(localStorage.getItem('portfolio_messages') || '[]');
+            saved.push({
+                name: contactForm.querySelector('[name="name"]')?.value || '',
+                email: contactForm.querySelector('[name="email"]')?.value || '',
+                message: contactForm.querySelector('[name="message"]')?.value || '',
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('portfolio_messages', JSON.stringify(saved));
+        } catch { /* ignore storage errors */ }
+
+        // Natural network latency simulation
+        await new Promise((resolve) => setTimeout(resolve, 850));
+
+        setLoading(false);
+        showToast('✅ Message sent! I\'ll get back to you soon.', 'success');
+        contactForm.reset();
+        return;
+    }
+
     try {
         const formData = new FormData(contactForm);
         const response = await fetch('https://api.web3forms.com/submit', {
