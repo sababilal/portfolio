@@ -1,43 +1,43 @@
-/* ===================================================
-   SABA BILAL — PORTFOLIO  |  Premium Dark Theme
+ï»¿/* ===================================================
+   SABA BILAL ï¿½ PORTFOLIO  |  Premium Light Theme
    =================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
     /* === Color System === */
-    --bg-base:      #080c14;
-    --bg-surface:   #0d1221;
-    --bg-elevated:  #111827;
-    --bg-card:      rgba(17, 24, 39, 0.8);
-    --bg-glass:     rgba(255, 255, 255, 0.04);
-    --bg-glass-hover: rgba(255, 255, 255, 0.07);
+    --bg-base:      #ffffff;
+    --bg-surface:   #fafafa;
+    --bg-elevated:  #f4f4f5;
+    --bg-card:      #ffffff;
+    --bg-glass:     #ffffff;
+    --bg-glass-hover: #f9fafb;
 
-    --text-primary:   #f0f4ff;
-    --text-secondary: #8b9fc5;
-    --text-muted:     #4a5568;
+    --text-primary:   #0f172a;
+    --text-secondary: #475569;
+    --text-muted:     #94a3b8;
 
-    /* Accent palette — emerald ? teal */
-    --accent-1:    #10b981;   /* emerald */
-    --accent-2:    #059669;   /* deep emerald */
-    --accent-3:    #14b8a6;   /* teal */
-    --accent-4:    #6ee7b7;   /* light emerald */
+    /* Accent palette ï¿½ emerald ? teal */
+    --accent-1:    #991b1b;   /* maroon */
+    --accent-2:    #7f1d1d;   /* deep maroon */
+    --accent-3:    #be123c;   /* crimson */
+    --accent-4:    #450a0a;   /* dark maroon */
 
-    --gradient-primary: linear-gradient(135deg, #10b981 0%, #059669 50%, #14b8a6 100%);
-    --gradient-glow:    linear-gradient(135deg, rgba(16,185,129,0.4) 0%, rgba(5,150,105,0.4) 100%);
-    --gradient-card:    linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(20,184,166,0.06) 100%);
+    --gradient-primary: linear-gradient(135deg, #991b1b 0%, #7f1d1d 50%, #be123c 100%);
+    --gradient-glow:    linear-gradient(135deg, rgba(153,27,27,0.4) 0%, rgba(127,29,29,0.4) 100%);
+    --gradient-card:    linear-gradient(135deg, rgba(153,27,27,0.05) 0%, rgba(190,18,60,0.05) 100%);
 
     /* Borders */
-    --border-subtle: rgba(255,255,255,0.07);
-    --border-accent: rgba(16,185,129,0.35);
-    --border-glow:   rgba(16,185,129,0.6);
+    --border-subtle: rgba(0,0,0,0.08);
+    --border-accent: rgba(153,27,27,0.35);
+    --border-glow:   rgba(153,27,27,0.6);
 
     /* Shadows */
-    --shadow-sm:     0 2px 8px rgba(0,0,0,0.4);
-    --shadow-md:     0 8px 30px rgba(0,0,0,0.5);
-    --shadow-lg:     0 20px 60px rgba(0,0,0,0.6);
-    --shadow-glow:   0 0 40px rgba(16,185,129,0.2);
-    --shadow-glow-strong: 0 0 60px rgba(16,185,129,0.4);
+    --shadow-sm:     0 2px 8px rgba(0,0,0,0.08);
+    --shadow-md:     0 8px 30px rgba(0,0,0,0.1);
+    --shadow-lg:     0 20px 60px rgba(0,0,0,0.12);
+    --shadow-glow:   0 0 40px rgba(153,27,27,0.15);
+    --shadow-glow-strong: 0 0 60px rgba(153,27,27,0.3);
 
     /* Typography */
     --font-display: 'Space Grotesk', system-ui, sans-serif;
@@ -69,63 +69,29 @@
 
 html {
     scroll-behavior: smooth;
-    /* Guarantee dark bg even if body doesn't stretch full height on mobile */
-    background-color: #080c14;
+    background: #ffffff;
+    background-color: #ffffff;
     min-height: 100%;
 }
 
 body {
-    background-color: #080c14; /* explicit hex fallback first */
-    background-color: var(--bg-base);
-    color: #f0f4ff; /* explicit fallback */
+    background: #ffffff;
+    background-color: #ffffff;
+    color: #0f172a;
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.7;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
-    min-height: 100dvh; /* dynamic viewport height — accounts for mobile browser bars */
+    min-height: 100dvh;
 }
 
-/* Ambient background orbs */
+/* Ambient background orbs disabled for pure white background */
 body::before,
-body::after {
-    content: '';
-    position: fixed;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-    filter: blur(120px);
-    opacity: 0.12;
-}
-body::before {
-    width: 700px; height: 700px;
-    top: -200px; left: -200px;
-    background: radial-gradient(circle, #10b981, transparent 70%);
-    animation: orb1 18s ease-in-out infinite alternate;
-}
-body::after {
-    width: 500px; height: 500px;
-    bottom: 0; right: -100px;
-    background: radial-gradient(circle, #14b8a6, transparent 70%);
-    animation: orb2 22s ease-in-out infinite alternate;
-}
-
-/* iOS Safari fix: position:fixed on pseudo-elements causes white flash.
-   On mobile we switch to absolute so the dark bg-base always shows. */
-@supports (-webkit-touch-callout: none) {
-    body::before, body::after {
-        position: absolute;
-    }
-}
-
-@keyframes orb1 {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(120px, 80px) scale(1.3); }
-}
-@keyframes orb2 {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(-80px, -120px) scale(1.2); }
+body::after,
+html::after {
+    display: none !important;
 }
 
 /* =============== SCROLLBAR =============== */
@@ -222,9 +188,9 @@ nav {
     top: 0; left: 0; right: 0;
     height: var(--header-height);
     z-index: 1000;
-    /* Solid dark base — visible even without backdrop-filter support */
-    background: #080c14;
-    background: rgba(8, 12, 20, 0.92);
+    /* Solid dark base ï¿½ visible even without backdrop-filter support */
+    background: #f8fafc;
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-bottom: 1px solid var(--border-subtle);
@@ -232,9 +198,9 @@ nav {
 }
 
 nav.scrolled {
-    background: #080c14;
-    background: rgba(8, 12, 20, 0.98);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.6);
+    background: #f8fafc;
+    background: #ffffff;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
 }
 
 nav .container {
@@ -278,15 +244,15 @@ nav .container {
 
 .nav-link.active {
     color: var(--accent-4);
-    background: rgba(16,185,129,0.12);
+    background: rgba(153,27,27,0.12);
 }
 
 /* Mobile hamburger */
 .nav-toggle {
     display: none;
-    background: rgba(255, 255, 255, 0.06) !important;
-    background-color: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
     border-radius: 10px !important;
     width: 42px !important;
     height: 42px !important;
@@ -308,15 +274,15 @@ nav .container {
 .nav-toggle:hover,
 .nav-toggle:active,
 .nav-toggle.is-open {
-    background: rgba(99, 102, 241, 0.18) !important;
-    background-color: rgba(99, 102, 241, 0.18) !important;
-    border-color: rgba(99, 102, 241, 0.4) !important;
+    background: rgba(153, 27, 27, 0.12) !important;
+    background-color: rgba(153, 27, 27, 0.12) !important;
+    border-color: rgba(153, 27, 27, 0.4) !important;
 }
 .nav-toggle span {
     display: block;
     width: 20px;
     height: 2px;
-    background: #f0f4ff !important;
+    background: #0f172a !important;
     border-radius: 2px;
     transition: transform var(--t-med), opacity var(--t-med);
     transform-origin: center;
@@ -356,8 +322,8 @@ nav .container {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    background: rgba(16,185,129,0.1);
-    border: 1px solid rgba(16,185,129,0.25);
+    background: rgba(153,27,27,0.1);
+    border: 1px solid rgba(153,27,27,0.25);
     border-radius: var(--radius-full);
     padding: 0.4rem 1rem;
     font-size: 0.8rem;
@@ -471,7 +437,7 @@ nav .container {
 /* Floating badges around image */
 .hero-badge {
     position: absolute;
-    background: rgba(17,24,39,0.9);
+    background: rgba(255,255,255,0.95);
     border: 1px solid var(--border-accent);
     border-radius: var(--radius-md);
     padding: 0.6rem 1rem;
@@ -517,7 +483,7 @@ nav .container {
     position: absolute;
     width: 380px; height: 380px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(16,185,129,0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(153,27,27,0.3) 0%, transparent 70%);
     z-index: 0;
     animation: glow-pulse 4s ease-in-out infinite;
 }
@@ -550,7 +516,7 @@ nav .container {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.05);
     opacity: 0;
     transition: opacity var(--t-fast);
 }
@@ -559,29 +525,29 @@ nav .container {
 .btn-primary {
     background: var(--gradient-primary);
     color: #fff;
-    box-shadow: 0 4px 20px rgba(16,185,129,0.45);
+    box-shadow: 0 4px 20px rgba(153,27,27,0.45);
 }
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(16,185,129,0.6);
+    box-shadow: 0 8px 30px rgba(153,27,27,0.6);
 }
 .btn-primary:active { transform: translateY(0); }
 
 .btn-ghost {
-    background: rgba(99, 102, 241, 0.15);
-    color: #f0f4ff;
+    background: rgba(153,27,27,0.1);
+    color: #0f172a;
     color: var(--text-primary);
-    border: 1px solid rgba(99, 102, 241, 0.35);
+    border: 1px solid rgba(153,27,27,0.3);
 }
 .btn-ghost:hover {
     border-color: var(--border-accent);
-    background: rgba(99, 102, 241, 0.25);
+    background: rgba(153,27,27,0.15);
     transform: translateY(-2px);
 }
 
 /* =============== ABOUT SECTION =============== */
 #about {
-    background: var(--bg-surface);
+    background: #fafafa;
     border-top: 1px solid var(--border-subtle);
     border-bottom: 1px solid var(--border-subtle);
 }
@@ -674,7 +640,7 @@ nav .container {
     width: 14px; height: 14px;
     border-radius: 50%;
     background: var(--gradient-primary);
-    box-shadow: 0 0 0 4px var(--bg-base), 0 0 0 6px rgba(16,185,129,0.3);
+    box-shadow: 0 0 0 4px var(--bg-base), 0 0 0 6px rgba(153,27,27,0.3);
     flex-shrink: 0;
 }
 
@@ -722,7 +688,7 @@ nav .container {
 
 /* =============== EDUCATION SECTION =============== */
 #education {
-    background: var(--bg-surface);
+    background: #fafafa;
     border-top: 1px solid var(--border-subtle);
     border-bottom: 1px solid var(--border-subtle);
 }
@@ -821,9 +787,9 @@ nav .container {
 .skill-pill:hover {
     border-color: var(--border-accent);
     color: var(--accent-4);
-    background: rgba(16,185,129,0.1);
+    background: rgba(153,27,27,0.1);
     transform: translateY(-3px);
-    box-shadow: 0 4px 16px rgba(16,185,129,0.25);
+    box-shadow: 0 4px 16px rgba(153,27,27,0.25);
 }
 
 .skill-pill .skill-icon {
@@ -831,7 +797,7 @@ nav .container {
 }
 
 /* =============== PROJECTS SECTION =============== */
-#projects { background: var(--bg-surface); }
+#projects { background: #fafafa; }
 
 .projects-bento {
     display: grid;
@@ -865,7 +831,7 @@ nav .container {
 
 .proj-card:hover {
     border-color: var(--border-accent);
-    box-shadow: 0 20px 50px rgba(16,185,129,0.2);
+    box-shadow: 0 20px 50px rgba(153,27,27,0.2);
     transform: translateY(-8px);
 }
 .proj-card:hover::before { opacity: 1; }
@@ -920,9 +886,9 @@ nav .container {
     font-weight: 600;
     padding: 0.3rem 0.85rem;
     border-radius: var(--radius-full);
-    background: rgba(16,185,129,0.12);
+    background: rgba(153,27,27,0.12);
     color: var(--accent-4);
-    border: 1px solid rgba(16,185,129,0.2);
+    border: 1px solid rgba(153,27,27,0.2);
     letter-spacing: 0.03em;
 }
 
@@ -968,9 +934,9 @@ nav .container {
 
 .contact-link:hover {
     border-color: var(--border-accent);
-    background: rgba(16,185,129,0.1);
+    background: rgba(153,27,27,0.1);
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(16,185,129,0.25);
+    box-shadow: 0 8px 24px rgba(153,27,27,0.25);
     color: var(--accent-4);
 }
 
@@ -982,7 +948,7 @@ nav .container {
     font-size: 1rem;
     font-weight: 600;
     color: var(--accent-4);
-    border-bottom: 1px dashed rgba(110,231,183,0.4);
+    border-bottom: 1px dashed rgba(153,27,27,0.4);
     padding-bottom: 2px;
     transition: color var(--t-fast), border-color var(--t-fast);
 }
@@ -1039,8 +1005,8 @@ nav .container {
 
 .form-input:focus {
     border-color: var(--accent-1);
-    background: rgba(16,185,129,0.05);
-    box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+    background: rgba(153,27,27,0.05);
+    box-shadow: 0 0 0 3px rgba(153,27,27,0.2);
 }
 
 .form-input.is-invalid {
@@ -1095,9 +1061,9 @@ nav .container {
 }
 
 .form-toast.success {
-    background: rgba(16, 185, 129, 0.12);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #6ee7b7;
+    background: rgba(153, 27, 27, 0.12);
+    border: 1px solid rgba(153, 27, 27, 0.3);
+    color: #7f1d1d;
 }
 
 .form-toast.error {
@@ -1111,14 +1077,7 @@ nav .container {
 }
 
 /* Big glow accent behind CTA area */
-.contact-glow-bg {
-    position: absolute;
-    width: 600px; height: 300px;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(ellipse, rgba(16,185,129,0.12) 0%, transparent 70%);
-    pointer-events: none;
-}
+.contact-glow-bg { display: none; }
 
 /* =============== TAGS (Education cards) =============== */
 .badge-pill {
@@ -1141,14 +1100,14 @@ nav .container {
 }
 
 .badge-blue {
-    background: rgba(20,184,166,0.1);
+    background: rgba(190,18,60,0.1);
     color: var(--accent-3);
-    border-color: rgba(20,184,166,0.25);
+    border-color: rgba(190,18,60,0.25);
 }
 
 /* =============== FOOTER =============== */
 footer {
-    background: var(--bg-surface);
+    background: #fafafa;
     border-top: 1px solid var(--border-subtle);
     padding: 2.5rem 0;
     text-align: center;
@@ -1190,7 +1149,7 @@ footer p {
         position: absolute;
         top: var(--header-height);
         left: 0; right: 0;
-        background: rgba(8, 12, 20, 0.97);
+        background: #ffffff;
         backdrop-filter: blur(24px);
         border-bottom: 1px solid var(--border-subtle);
         padding: 1rem 0;
@@ -1234,7 +1193,7 @@ footer p {
     h1 { font-size: 2.6rem; }
     h2 { font-size: 1.9rem; }
 
-    /* Hero — already single column via flex, just tighten */
+    /* Hero ï¿½ already single column via flex, just tighten */
     .hero {
         min-height: 100svh; /* iOS safe area fix */
     }
@@ -1279,12 +1238,12 @@ footer p {
         top: var(--header-height);
         left: 0;
         right: 0;
-        background: #080c14;
-        background: rgba(8, 12, 20, 0.98);
+        background: #f8fafc;
+        background: #ffffff;
         backdrop-filter: blur(24px) saturate(180%);
         -webkit-backdrop-filter: blur(24px) saturate(180%);
         border-bottom: 1px solid var(--border-subtle);
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.1);
         flex-direction: column;
         padding: 1.25rem 1.5rem 1.75rem;
         gap: 0.5rem;
@@ -1314,9 +1273,9 @@ footer p {
 
     .nav-link:hover,
     .nav-link.active {
-        background: rgba(99, 102, 241, 0.15);
+        background: rgba(153,27,27,0.1);
         color: var(--text-primary);
-        border-color: rgba(99, 102, 241, 0.25);
+        border-color: rgba(153,27,27,0.25);
     }
 
     /* Timeline */
