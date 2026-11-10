@@ -1,5 +1,5 @@
-ï»¿/* ===================================================
-   SABA BILAL â€” PORTFOLIO  |  Premium Dark Theme
+/* ===================================================
+   SABA BILAL — PORTFOLIO  |  Premium Dark Theme
    =================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
@@ -17,27 +17,27 @@
     --text-secondary: #8b9fc5;
     --text-muted:     #4a5568;
 
-    /* Accent palette â€” electric indigo â†’ cyan */
-    --accent-1:    #6366f1;   /* indigo */
-    --accent-2:    #8b5cf6;   /* violet */
-    --accent-3:    #06b6d4;   /* cyan */
-    --accent-4:    #a78bfa;   /* light violet */
+    /* Accent palette — emerald ? teal */
+    --accent-1:    #10b981;   /* emerald */
+    --accent-2:    #059669;   /* deep emerald */
+    --accent-3:    #14b8a6;   /* teal */
+    --accent-4:    #6ee7b7;   /* light emerald */
 
-    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
-    --gradient-glow:    linear-gradient(135deg, rgba(99,102,241,0.4) 0%, rgba(139,92,246,0.4) 100%);
-    --gradient-card:    linear-gradient(135deg, rgba(99,102,241,0.06) 0%, rgba(6,182,212,0.06) 100%);
+    --gradient-primary: linear-gradient(135deg, #10b981 0%, #059669 50%, #14b8a6 100%);
+    --gradient-glow:    linear-gradient(135deg, rgba(16,185,129,0.4) 0%, rgba(5,150,105,0.4) 100%);
+    --gradient-card:    linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(20,184,166,0.06) 100%);
 
     /* Borders */
     --border-subtle: rgba(255,255,255,0.07);
-    --border-accent: rgba(99,102,241,0.35);
-    --border-glow:   rgba(99,102,241,0.6);
+    --border-accent: rgba(16,185,129,0.35);
+    --border-glow:   rgba(16,185,129,0.6);
 
     /* Shadows */
     --shadow-sm:     0 2px 8px rgba(0,0,0,0.4);
     --shadow-md:     0 8px 30px rgba(0,0,0,0.5);
     --shadow-lg:     0 20px 60px rgba(0,0,0,0.6);
-    --shadow-glow:   0 0 40px rgba(99,102,241,0.2);
-    --shadow-glow-strong: 0 0 60px rgba(99,102,241,0.4);
+    --shadow-glow:   0 0 40px rgba(16,185,129,0.2);
+    --shadow-glow-strong: 0 0 60px rgba(16,185,129,0.4);
 
     /* Typography */
     --font-display: 'Space Grotesk', system-ui, sans-serif;
@@ -84,7 +84,7 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
-    min-height: 100dvh; /* dynamic viewport height â€” accounts for mobile browser bars */
+    min-height: 100dvh; /* dynamic viewport height — accounts for mobile browser bars */
 }
 
 /* Ambient background orbs */
@@ -101,13 +101,13 @@ body::after {
 body::before {
     width: 700px; height: 700px;
     top: -200px; left: -200px;
-    background: radial-gradient(circle, #6366f1, transparent 70%);
+    background: radial-gradient(circle, #10b981, transparent 70%);
     animation: orb1 18s ease-in-out infinite alternate;
 }
 body::after {
     width: 500px; height: 500px;
     bottom: 0; right: -100px;
-    background: radial-gradient(circle, #06b6d4, transparent 70%);
+    background: radial-gradient(circle, #14b8a6, transparent 70%);
     animation: orb2 22s ease-in-out infinite alternate;
 }
 
@@ -222,7 +222,7 @@ nav {
     top: 0; left: 0; right: 0;
     height: var(--header-height);
     z-index: 1000;
-    /* Solid dark base â€” visible even without backdrop-filter support */
+    /* Solid dark base — visible even without backdrop-filter support */
     background: #080c14;
     background: rgba(8, 12, 20, 0.92);
     backdrop-filter: blur(24px) saturate(180%);
@@ -278,7 +278,7 @@ nav .container {
 
 .nav-link.active {
     color: var(--accent-4);
-    background: rgba(99,102,241,0.12);
+    background: rgba(16,185,129,0.12);
 }
 
 /* Mobile hamburger */
@@ -356,8 +356,8 @@ nav .container {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    background: rgba(99,102,241,0.1);
-    border: 1px solid rgba(99,102,241,0.25);
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.25);
     border-radius: var(--radius-full);
     padding: 0.4rem 1rem;
     font-size: 0.8rem;
@@ -517,7 +517,7 @@ nav .container {
     position: absolute;
     width: 380px; height: 380px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(16,185,129,0.3) 0%, transparent 70%);
     z-index: 0;
     animation: glow-pulse 4s ease-in-out infinite;
 }
@@ -559,11 +559,11 @@ nav .container {
 .btn-primary {
     background: var(--gradient-primary);
     color: #fff;
-    box-shadow: 0 4px 20px rgba(99,102,241,0.45);
+    box-shadow: 0 4px 20px rgba(16,185,129,0.45);
 }
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(99,102,241,0.6);
+    box-shadow: 0 8px 30px rgba(16,185,129,0.6);
 }
 .btn-primary:active { transform: translateY(0); }
 
@@ -674,7 +674,7 @@ nav .container {
     width: 14px; height: 14px;
     border-radius: 50%;
     background: var(--gradient-primary);
-    box-shadow: 0 0 0 4px var(--bg-base), 0 0 0 6px rgba(99,102,241,0.3);
+    box-shadow: 0 0 0 4px var(--bg-base), 0 0 0 6px rgba(16,185,129,0.3);
     flex-shrink: 0;
 }
 
@@ -821,9 +821,9 @@ nav .container {
 .skill-pill:hover {
     border-color: var(--border-accent);
     color: var(--accent-4);
-    background: rgba(99,102,241,0.1);
+    background: rgba(16,185,129,0.1);
     transform: translateY(-3px);
-    box-shadow: 0 4px 16px rgba(99,102,241,0.25);
+    box-shadow: 0 4px 16px rgba(16,185,129,0.25);
 }
 
 .skill-pill .skill-icon {
@@ -865,7 +865,7 @@ nav .container {
 
 .proj-card:hover {
     border-color: var(--border-accent);
-    box-shadow: 0 20px 50px rgba(99,102,241,0.2);
+    box-shadow: 0 20px 50px rgba(16,185,129,0.2);
     transform: translateY(-8px);
 }
 .proj-card:hover::before { opacity: 1; }
@@ -920,9 +920,9 @@ nav .container {
     font-weight: 600;
     padding: 0.3rem 0.85rem;
     border-radius: var(--radius-full);
-    background: rgba(99,102,241,0.12);
+    background: rgba(16,185,129,0.12);
     color: var(--accent-4);
-    border: 1px solid rgba(99,102,241,0.2);
+    border: 1px solid rgba(16,185,129,0.2);
     letter-spacing: 0.03em;
 }
 
@@ -968,9 +968,9 @@ nav .container {
 
 .contact-link:hover {
     border-color: var(--border-accent);
-    background: rgba(99,102,241,0.1);
+    background: rgba(16,185,129,0.1);
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(99,102,241,0.25);
+    box-shadow: 0 8px 24px rgba(16,185,129,0.25);
     color: var(--accent-4);
 }
 
@@ -982,7 +982,7 @@ nav .container {
     font-size: 1rem;
     font-weight: 600;
     color: var(--accent-4);
-    border-bottom: 1px dashed rgba(167,139,250,0.4);
+    border-bottom: 1px dashed rgba(110,231,183,0.4);
     padding-bottom: 2px;
     transition: color var(--t-fast), border-color var(--t-fast);
 }
@@ -1039,8 +1039,8 @@ nav .container {
 
 .form-input:focus {
     border-color: var(--accent-1);
-    background: rgba(99,102,241,0.05);
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+    background: rgba(16,185,129,0.05);
+    box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
 }
 
 .form-input.is-invalid {
@@ -1116,7 +1116,7 @@ nav .container {
     width: 600px; height: 300px;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(16,185,129,0.12) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -1141,9 +1141,9 @@ nav .container {
 }
 
 .badge-blue {
-    background: rgba(6,182,212,0.1);
+    background: rgba(20,184,166,0.1);
     color: var(--accent-3);
-    border-color: rgba(6,182,212,0.25);
+    border-color: rgba(20,184,166,0.25);
 }
 
 /* =============== FOOTER =============== */
@@ -1209,7 +1209,7 @@ footer p {
         border-radius: 0;
         font-size: 1rem;
     }
-    /* Hamburger â†’ X */
+    /* Hamburger ? X */
     .nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-toggle.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -1234,7 +1234,7 @@ footer p {
     h1 { font-size: 2.6rem; }
     h2 { font-size: 1.9rem; }
 
-    /* Hero â€” already single column via flex, just tighten */
+    /* Hero — already single column via flex, just tighten */
     .hero {
         min-height: 100svh; /* iOS safe area fix */
     }

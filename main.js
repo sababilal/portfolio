@@ -74,7 +74,7 @@ if (window.matchMedia('(pointer: fine)').matches) {
         border-radius: 50%;
         pointer-events: none;
         z-index: 0;
-        background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%);
         transform: translate(-50%, -50%);
         transition: left 0.4s ease, top 0.4s ease;
         mix-blend-mode: screen;
