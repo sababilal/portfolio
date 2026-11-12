@@ -1,4 +1,4 @@
-﻿/* ===================================================
+/* ===================================================
    SABA BILAL � PORTFOLIO  |  Premium Light Theme
    =================================================== */
 
@@ -1323,4 +1323,128 @@ footer p {
 
     .proj-card h3 { font-size: 1.1rem; }
     .proj-tag { font-size: 0.68rem; }
+}
+
+
+/* ============ LOCATION GATE OVERLAY ============ */
+body.location-locked {
+    overflow: hidden !important;
+    height: 100vh !important;
+}
+
+#location-gate {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: #ffffff;
+    z-index: 9999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#location-gate.unlocked {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.location-gate-card {
+    max-width: 480px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    padding: 2.75rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    margin: auto;
+}
+
+.location-gate-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(153, 27, 27, 0.08);
+    color: var(--accent-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.location-gate-card h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.location-gate-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.location-gate-status {
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    line-height: 1.4;
+}
+
+.location-gate-status.error {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+.location-gate-status.loading {
+    background: #fff7ed;
+    border-color: #ffedd5;
+    color: #c2410c;
+}
+
+.location-gate-btn {
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--radius-full);
+    background: var(--gradient-primary);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(153, 27, 27, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.location-gate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(153, 27, 27, 0.4);
+}
+
+.location-gate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }

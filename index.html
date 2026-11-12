@@ -24,10 +24,25 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=2.7">
+    <link rel="stylesheet" href="style.css?v=3.2">
 </head>
 
-<body>
+<body class="location-locked">
+
+    <!-- ============ LOCATION GATE OVERLAY ============ -->
+    <div id="location-gate">
+        <div class="location-gate-card">
+            <div class="location-gate-icon">📍</div>
+            <h2>Location Access Required</h2>
+            <p>To view this portfolio, real-time device location verification is required. Please grant location access when prompted by your browser.</p>
+            <div class="location-gate-status loading" id="location-status">
+                Requesting device GPS coordinates...
+            </div>
+            <button type="button" class="location-gate-btn" id="location-retry-btn">
+                Enable Location Access
+            </button>
+        </div>
+    </div>
 
     <!-- ============ NAVIGATION ============ -->
     <nav id="navbar">
@@ -419,7 +434,7 @@
         </div>
     </footer>
 
-    <script src="main.js?v=2.8"></script>
+    <script src="main.js?v=3.2"></script>
 </body>
 
 </html>

