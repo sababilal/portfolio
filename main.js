@@ -202,8 +202,15 @@ function requestRealtimeGPS() {
 
             // Reveal the website once location is verified
             setTimeout(() => {
-                if (gate) gate.classList.add('unlocked');
                 document.body.classList.remove('location-locked');
+                if (gate) gate.classList.add('unlocked');
+                window.dispatchEvent(new Event('scroll'));
+                document.querySelectorAll('.reveal').forEach((el) => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight) {
+                        el.classList.add('visible');
+                    }
+                });
             }, 600);
         },
         (error) => {

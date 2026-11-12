@@ -1332,6 +1332,11 @@ body.location-locked {
     height: 100vh !important;
 }
 
+/* Completely hide all website content (navbar, hero, sections, footer) while locked */
+body.location-locked > :not(#location-gate) {
+    display: none !important;
+}
+
 #location-gate {
     position: fixed;
     top: 0;
