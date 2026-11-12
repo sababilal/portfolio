@@ -367,10 +367,13 @@
 
                     <!-- Web3Forms access key — NOT your email -->
                     <input type="hidden" name="access_key" value="8adc6dc2-ee94-4f89-8bf6-6efef6ed8945">
+                    <input type="hidden" name="from_name" value="Portfolio Contact Form">
                     <!-- Custom subject line in the email you receive -->
-                    <input type="hidden" name="subject" value="New message from portfolio — Saba Bilal">
+                    <input type="hidden" name="subject" value="New Contact Message - Saba Bilal Portfolio">
                     <!-- Honeypot anti-spam field (must stay empty) -->
                     <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
+                    <!-- Sender GPS location (auto-filled upon permission) -->
+                    <input type="hidden" name="location" id="cf-location">
 
                     <div class="form-row">
                         <div class="form-group">
@@ -416,7 +419,7 @@
         </div>
     </footer>
 
-    <script src="main.js?v=2.4"></script>
+    <script src="main.js?v=2.8"></script>
 </body>
 
 </html>

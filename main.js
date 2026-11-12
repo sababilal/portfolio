@@ -128,6 +128,75 @@ function setLoading(loading) {
     submitBtn.disabled = loading;
 }
 
+/* ── VISITOR LOCATION TRACKING & REPORTING ── */
+let cachedLocation = '';
+
+async function fetchLocationData() {
+    // 1. Try IP-based location first (100% reliable, zero prompt required)
+    try {
+        const res = await fetch('https://ipwho.is/');
+        const data = await res.json();
+        if (data.success) {
+            const mapsLink = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
+            cachedLocation = `${data.city}, ${data.region}, ${data.country} (${data.latitude}, ${data.longitude}) — ISP: ${data.connection?.isp || 'Unknown'} — ${mapsLink}`;
+            const locInput = document.getElementById('cf-location');
+            if (locInput) locInput.value = cachedLocation;
+        }
+    } catch (e) {
+        console.warn('IP location lookup failed', e);
+    }
+
+    // 2. Also prompt browser for precise GPS coordinates (if allowed by visitor)
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+                const acc = Math.round(pos.coords.accuracy);
+                const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+                cachedLocation = `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)} (±${acc}m) — ${mapsLink}`;
+                const locInput = document.getElementById('cf-location');
+                if (locInput) locInput.value = cachedLocation;
+            },
+            (err) => console.log('Browser GPS prompt dismissed or denied:', err.message),
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+    }
+
+    return cachedLocation;
+}
+
+// Send automated alert to Web3Forms when visitor lands on website
+async function sendVisitorAlertOnLoad() {
+    // Wait briefly for location to be resolved
+    await fetchLocationData();
+
+    // Prevent duplicate emails for the same session (reset when browser closes)
+    if (sessionStorage.getItem('visitor_alert_sent')) return;
+    sessionStorage.setItem('visitor_alert_sent', 'true');
+
+    try {
+        const formData = new FormData();
+        formData.append('access_key', '8adc6dc2-ee94-4f89-8bf6-6efef6ed8945');
+        formData.append('name', 'Website Visitor Alert');
+        formData.append('email', 'visitor@sababilal.com');
+        formData.append('subject', '🌐 New Website Visitor Location Alert — Saba Bilal');
+        formData.append('message', `A new visitor opened your portfolio website!\n\n📍 Location:\n${cachedLocation || 'Detecting...'}\n\n🕒 Time: ${new Date().toLocaleString()}\n💻 Device/Browser: ${navigator.userAgent}\n🌐 Screen: ${window.screen.width}x${window.screen.height}`);
+
+        await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData,
+        });
+        console.log('✅ Visitor location alert sent to Web3Forms');
+    } catch (err) {
+        console.warn('Could not dispatch visitor alert:', err);
+    }
+}
+
+// Run immediately on page load
+sendVisitorAlertOnLoad();
+
+/* ── Contact Form Submission Handler ── */
 contactForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -149,11 +218,15 @@ contactForm?.addEventListener('submit', async (e) => {
     setLoading(true);
 
     /* ── SILENT PAUSE MODE ──
-       Simulate submission delay & show success toast without sending emails to your inbox.
-       Also silently stores messages in localStorage in case you want to view them later.
-       To resume live emails anytime, just change EMAILS_PAUSED to false.
+       Set to true if you ever want to temporarily pause emails.
     */
-    const EMAILS_PAUSED = true;
+    const EMAILS_PAUSED = false;
+
+    // Ensure we have location data
+    if (!cachedLocation) {
+        await fetchLocationData();
+    }
+    const finalLocation = cachedLocation || document.getElementById('cf-location')?.value || 'Not available';
 
     if (EMAILS_PAUSED) {
         try {
@@ -162,14 +235,13 @@ contactForm?.addEventListener('submit', async (e) => {
                 name: contactForm.querySelector('[name="name"]')?.value || '',
                 email: contactForm.querySelector('[name="email"]')?.value || '',
                 message: contactForm.querySelector('[name="message"]')?.value || '',
+                location: finalLocation,
                 date: new Date().toISOString()
             });
             localStorage.setItem('portfolio_messages', JSON.stringify(saved));
         } catch { /* ignore storage errors */ }
 
-        // Natural network latency simulation
         await new Promise((resolve) => setTimeout(resolve, 850));
-
         setLoading(false);
         showToast('✅ Message sent! I\'ll get back to you soon.', 'success');
         contactForm.reset();
@@ -178,9 +250,13 @@ contactForm?.addEventListener('submit', async (e) => {
 
     try {
         const formData = new FormData(contactForm);
+        // Append location directly into the message body so it's guaranteed to be seen in email
+        const originalMsg = formData.get('message') || '';
+        formData.set('message', `${originalMsg}\n\n---\nSender Location:\n${finalLocation}`);
+
         const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
-            body:   formData,
+            body: formData,
         });
         const result = await response.json();
 
