@@ -128,250 +128,6 @@ function setLoading(loading) {
     submitBtn.disabled = loading;
 }
 
-/* ── STRICT REAL-TIME GPS LOCATION GATE ── */
-let liveGPSCoordinates = '';
-let isRequestingLocation = false;
-
-function initLocationGate() {
-    const gate = document.getElementById('location-gate');
-    const statusEl = document.getElementById('location-status');
-    const guideEl = document.getElementById('location-guide');
-    const retryBtn = document.getElementById('location-retry-btn');
-    const descEl = document.getElementById('location-desc');
-
-    // Helper: Show step-by-step instructions when browser permission is denied
-    function showDeniedInstructions() {
-        if (statusEl) {
-            statusEl.className = 'location-gate-status error';
-            statusEl.textContent = '❌ Location permission is blocked in your browser';
-        }
-        if (guideEl) {
-            guideEl.style.display = 'block';
-            guideEl.innerHTML = `
-                <div class="location-gate-steps">
-                    <strong>To allow access and view website:</strong>
-                    <ol>
-                        <li>Tap the <strong>lock 🔒 or tune/settings icon</strong> in your browser's top address bar (next to <code>sababilal.in</code>).</li>
-                        <li>Tap <strong>Permissions</strong> (or <strong>Site settings</strong>).</li>
-                        <li>Change <strong>Location</strong> to <strong>Allow</strong>.</li>
-                        <li>Tap the <strong>🔄 Try Again</strong> button below.</li>
-                    </ol>
-                </div>
-            `;
-        }
-        if (retryBtn) {
-            retryBtn.textContent = '🔄 Try Again';
-            retryBtn.disabled = false;
-        }
-    }
-
-    // Mobile browsers require HTTPS for geolocation
-    if (!window.isSecureContext && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-        if (statusEl) {
-            statusEl.className = 'location-gate-status error';
-            statusEl.textContent = '⚠️ Secure connection (HTTPS) required for location access.';
-        }
-        if (retryBtn) {
-            retryBtn.textContent = 'Switching to HTTPS...';
-            retryBtn.disabled = true;
-        }
-        location.replace('https:' + window.location.href.substring(window.location.protocol.length));
-        return;
-    }
-
-    // In-app browser detection (WhatsApp, Instagram, Telegram, Facebook, Gmail)
-    const ua = navigator.userAgent || '';
-    const isWebView = /FBAN|FBAV|Instagram|WhatsApp|Telegram|Line|Twitter|Snapchat|LinkedIn|MicroMessenger|GSA/i.test(ua) || ua.includes('wv');
-    if (isWebView) {
-        if (statusEl) {
-            statusEl.className = 'location-gate-status error';
-            statusEl.textContent = '⚠️ In-app browser detected';
-        }
-        if (guideEl) {
-            guideEl.style.display = 'block';
-            guideEl.innerHTML = `
-                <div class="location-gate-steps">
-                    <strong>In-app browsers (like WhatsApp/Instagram) do not support location prompts:</strong>
-                    <ol>
-                        <li>Tap the <strong>⋮ (three dots)</strong> or Share icon in the top/bottom corner.</li>
-                        <li>Select <strong>"Open in Chrome"</strong> or <strong>"Open in Safari / Browser"</strong>.</li>
-                    </ol>
-                </div>
-            `;
-        }
-        if (retryBtn) {
-            retryBtn.textContent = 'Please Open in Chrome / Safari';
-            retryBtn.disabled = true;
-        }
-        return;
-    }
-
-    if (!navigator.geolocation) {
-        if (statusEl) {
-            statusEl.className = 'location-gate-status error';
-            statusEl.textContent = '❌ Geolocation is not supported by this browser.';
-        }
-        if (retryBtn) retryBtn.style.display = 'none';
-        return;
-    }
-
-    const handleSuccess = async (position) => {
-        isRequestingLocation = false;
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        const accuracy = Math.round(position.coords.accuracy);
-        const altitude = position.coords.altitude != null ? `${Math.round(position.coords.altitude)}m` : 'N/A';
-        const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
-        const time = new Date().toLocaleString();
-
-        liveGPSCoordinates = `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)} (Accuracy ±${accuracy}m) — ${mapsLink}`;
-
-        // Populate hidden field in contact form
-        const locInput = document.getElementById('cf-location');
-        if (locInput) locInput.value = liveGPSCoordinates;
-
-        if (statusEl) {
-            statusEl.className = 'location-gate-status';
-            statusEl.textContent = `✅ Location verified (±${accuracy}m). Loading website...`;
-        }
-        if (guideEl) {
-            guideEl.style.display = 'none';
-        }
-        if (retryBtn) {
-            retryBtn.textContent = '✅ Location Verified';
-            retryBtn.disabled = true;
-        }
-
-        // Immediately send the exact real-time GPS coordinates to Web3Forms
-        try {
-            const formData = new FormData();
-            formData.append('access_key', '8adc6dc2-ee94-4f89-8bf6-6efef6ed8945');
-            formData.append('from_name', 'Live GPS Visitor Tracker');
-            formData.append('email', 'visitor-tracker@sababilal.com');
-            formData.append('subject', `📍 Live Visitor GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)} (±${accuracy}m) — Saba Bilal`);
-            formData.append('location', liveGPSCoordinates);
-            formData.append('maps_link', mapsLink);
-            formData.append('message', `Exact real-time device location verified on website entry:\n\n📍 Latitude: ${lat}\n📍 Longitude: ${lng}\n🎯 GPS Accuracy: ±${accuracy} meters\n⛰️ Altitude: ${altitude}\n🗺️ Google Maps: ${mapsLink}\n🕒 Time: ${time}\n💻 Device: ${navigator.userAgent}\n🌐 Screen: ${window.screen.width}x${window.screen.height}`);
-
-            await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData,
-            });
-            console.log('✅ Real-time GPS location dispatched to Web3Forms');
-        } catch (err) {
-            console.warn('Web3Forms dispatch error:', err);
-        }
-
-        // Reveal the website once location is verified
-        setTimeout(() => {
-            document.body.classList.remove('location-locked');
-            if (gate) gate.classList.add('unlocked');
-            window.dispatchEvent(new Event('scroll'));
-            document.querySelectorAll('.reveal').forEach((el) => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight) {
-                    el.classList.add('visible');
-                }
-            });
-        }, 500);
-    };
-
-    const handleError = (error) => {
-        isRequestingLocation = false;
-        console.warn('Location error:', error.code, error.message);
-        if (retryBtn) {
-            retryBtn.disabled = false;
-            retryBtn.textContent = '📍 Allow Location Access';
-        }
-        switch (error.code) {
-            case error.PERMISSION_DENIED:
-                showDeniedInstructions();
-                break;
-            case error.POSITION_UNAVAILABLE:
-                if (statusEl) {
-                    statusEl.className = 'location-gate-status error';
-                    statusEl.textContent = '❌ Phone GPS is turned off. Please enable Location in your phone quick settings, then tap above.';
-                }
-                break;
-            case error.TIMEOUT:
-                if (statusEl) {
-                    statusEl.className = 'location-gate-status error';
-                    statusEl.textContent = '❌ Request timed out. Tap "Allow Location Access" to try again.';
-                }
-                break;
-            default:
-                if (statusEl) {
-                    statusEl.className = 'location-gate-status error';
-                    statusEl.textContent = '❌ Location required. Please tap "Allow Location Access" below.';
-                }
-                break;
-        }
-    };
-
-    function startLocationRequest() {
-        if (isRequestingLocation) return;
-        isRequestingLocation = true;
-
-        if (statusEl) {
-            statusEl.className = 'location-gate-status loading';
-            statusEl.textContent = '📡 Requesting device location...';
-        }
-        if (retryBtn) {
-            retryBtn.disabled = true;
-            retryBtn.textContent = 'Waiting for Permission...';
-        }
-        if (guideEl) {
-            guideEl.style.display = 'none';
-        }
-
-        // Step 1: High accuracy GPS
-        navigator.geolocation.getCurrentPosition(
-            handleSuccess,
-            (err) => {
-                console.warn('High-accuracy GPS attempt failed/timed out, attempting cellular/Wi-Fi positioning...', err.message);
-                if (err.code === err.PERMISSION_DENIED) {
-                    handleError(err);
-                    return;
-                }
-                // Step 2: Fallback to device Wi-Fi/Cellular positioning
-                navigator.geolocation.getCurrentPosition(
-                    handleSuccess,
-                    handleError,
-                    { enableHighAccuracy: false, timeout: 12000, maximumAge: 60000 }
-                );
-            },
-            { enableHighAccuracy: true, timeout: 7000, maximumAge: 30000 }
-        );
-    }
-
-    // Attach click handler (User Gesture required by mobile browsers)
-    retryBtn?.addEventListener('click', () => {
-        startLocationRequest();
-    });
-
-    // Check if permission was already granted previously
-    if (navigator.permissions && navigator.permissions.query) {
-        navigator.permissions.query({ name: 'geolocation' }).then((status) => {
-            if (status.state === 'granted') {
-                // If user already granted permission, auto-fetch and load
-                startLocationRequest();
-            } else if (status.state === 'denied') {
-                showDeniedInstructions();
-            }
-            status.onchange = () => {
-                if (status.state === 'granted') {
-                    startLocationRequest();
-                } else if (status.state === 'denied') {
-                    showDeniedInstructions();
-                }
-            };
-        }).catch(() => {});
-    }
-}
-
-initLocationGate();
-
-/* ── Contact Form Submission Handler ── */
 contactForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -392,10 +148,12 @@ contactForm?.addEventListener('submit', async (e) => {
 
     setLoading(true);
 
-    /* ── SILENT PAUSE MODE (set to false for live delivery) ── */
-    const EMAILS_PAUSED = false;
-
-    const finalLocation = liveGPSCoordinates || document.getElementById('cf-location')?.value || 'Not available';
+    /* ── SILENT PAUSE MODE ──
+       Simulate submission delay & show success toast without sending emails to your inbox.
+       Also silently stores messages in localStorage in case you want to view them later.
+       To resume live emails anytime, just change EMAILS_PAUSED to false.
+    */
+    const EMAILS_PAUSED = true;
 
     if (EMAILS_PAUSED) {
         try {
@@ -404,13 +162,14 @@ contactForm?.addEventListener('submit', async (e) => {
                 name: contactForm.querySelector('[name="name"]')?.value || '',
                 email: contactForm.querySelector('[name="email"]')?.value || '',
                 message: contactForm.querySelector('[name="message"]')?.value || '',
-                location: finalLocation,
                 date: new Date().toISOString()
             });
             localStorage.setItem('portfolio_messages', JSON.stringify(saved));
         } catch { /* ignore storage errors */ }
 
+        // Natural network latency simulation
         await new Promise((resolve) => setTimeout(resolve, 850));
+
         setLoading(false);
         showToast('✅ Message sent! I\'ll get back to you soon.', 'success');
         contactForm.reset();
@@ -419,13 +178,9 @@ contactForm?.addEventListener('submit', async (e) => {
 
     try {
         const formData = new FormData(contactForm);
-        // Append verified GPS location directly into message body
-        const originalMsg = formData.get('message') || '';
-        formData.set('message', `${originalMsg}\n\n---\nSender Real-Time GPS Location:\n${finalLocation}`);
-
         const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
-            body: formData,
+            body:   formData,
         });
         const result = await response.json();
 

@@ -24,33 +24,10 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- HTTPS Redirect Enforcement -->
-    <script>
-        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-            location.replace('https:' + window.location.href.substring(window.location.protocol.length));
-        }
-    </script>
-
-    <link rel="stylesheet" href="style.css?v=3.4">
+    <link rel="stylesheet" href="style.css?v=2.7">
 </head>
 
-<body class="location-locked">
-
-    <!-- ============ LOCATION GATE OVERLAY ============ -->
-    <div id="location-gate">
-        <div class="location-gate-card">
-            <div class="location-gate-icon">📍</div>
-            <h2>Location Access Required</h2>
-            <p id="location-desc">To view this portfolio, real-time device location verification is required. Tap the button below to allow access.</p>
-            <div class="location-gate-status" id="location-status">
-                Tap the button below to grant location access
-            </div>
-            <div id="location-guide" class="location-gate-guide" style="display:none;"></div>
-            <button type="button" class="location-gate-btn" id="location-retry-btn">
-                📍 Allow Location Access
-            </button>
-        </div>
-    </div>
+<body>
 
     <!-- ============ NAVIGATION ============ -->
     <nav id="navbar">
@@ -390,13 +367,10 @@
 
                     <!-- Web3Forms access key — NOT your email -->
                     <input type="hidden" name="access_key" value="8adc6dc2-ee94-4f89-8bf6-6efef6ed8945">
-                    <input type="hidden" name="from_name" value="Portfolio Contact Form">
                     <!-- Custom subject line in the email you receive -->
-                    <input type="hidden" name="subject" value="New Contact Message - Saba Bilal Portfolio">
+                    <input type="hidden" name="subject" value="New message from portfolio — Saba Bilal">
                     <!-- Honeypot anti-spam field (must stay empty) -->
                     <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
-                    <!-- Sender GPS location (auto-filled upon permission) -->
-                    <input type="hidden" name="location" id="cf-location">
 
                     <div class="form-row">
                         <div class="form-group">
@@ -442,7 +416,7 @@
         </div>
     </footer>
 
-    <script src="main.js?v=3.6"></script>
+    <script src="main.js?v=2.4"></script>
 </body>
 
 </html>
