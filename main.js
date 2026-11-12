@@ -153,7 +153,7 @@ contactForm?.addEventListener('submit', async (e) => {
        Also silently stores messages in localStorage in case you want to view them later.
        To resume live emails anytime, just change EMAILS_PAUSED to false.
     */
-    const EMAILS_PAUSED = true;
+    const EMAILS_PAUSED = false;
 
     if (EMAILS_PAUSED) {
         try {
