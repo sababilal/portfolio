@@ -1453,3 +1453,40 @@ body.location-locked > :not(#location-gate) {
     cursor: not-allowed;
     transform: none;
 }
+
+.location-gate-guide {
+    width: 100%;
+}
+
+.location-gate-steps {
+    text-align: left;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    font-size: 0.82rem;
+    color: #881337;
+    width: 100%;
+    line-height: 1.5;
+}
+
+.location-gate-steps strong {
+    color: #991b1b;
+}
+
+.location-gate-steps ol {
+    margin: 0.4rem 0 0 1.2rem;
+    padding: 0;
+}
+
+.location-gate-steps li {
+    margin-bottom: 0.35rem;
+}
+
+.location-gate-steps code {
+    background: rgba(153, 27, 27, 0.08);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: 600;
+}

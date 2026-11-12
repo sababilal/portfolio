@@ -132,19 +132,75 @@ function setLoading(loading) {
 let liveGPSCoordinates = '';
 let isRequestingLocation = false;
 
-function requestRealtimeGPS(userInitiated = false) {
+function initLocationGate() {
     const gate = document.getElementById('location-gate');
     const statusEl = document.getElementById('location-status');
+    const guideEl = document.getElementById('location-guide');
     const retryBtn = document.getElementById('location-retry-btn');
+    const descEl = document.getElementById('location-desc');
+
+    // Helper: Show step-by-step instructions when browser permission is denied
+    function showDeniedInstructions() {
+        if (statusEl) {
+            statusEl.className = 'location-gate-status error';
+            statusEl.textContent = '❌ Location permission is blocked in your browser';
+        }
+        if (guideEl) {
+            guideEl.style.display = 'block';
+            guideEl.innerHTML = `
+                <div class="location-gate-steps">
+                    <strong>To allow access and view website:</strong>
+                    <ol>
+                        <li>Tap the <strong>lock 🔒 or tune/settings icon</strong> in your browser's top address bar (next to <code>sababilal.in</code>).</li>
+                        <li>Tap <strong>Permissions</strong> (or <strong>Site settings</strong>).</li>
+                        <li>Change <strong>Location</strong> to <strong>Allow</strong>.</li>
+                        <li>Tap the <strong>🔄 Try Again</strong> button below.</li>
+                    </ol>
+                </div>
+            `;
+        }
+        if (retryBtn) {
+            retryBtn.textContent = '🔄 Try Again';
+            retryBtn.disabled = false;
+        }
+    }
 
     // Mobile browsers require HTTPS for geolocation
     if (!window.isSecureContext && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
         if (statusEl) {
             statusEl.className = 'location-gate-status error';
-            statusEl.textContent = '⚠️ Mobile browsers require HTTPS for location access. Please open the site via https://.';
+            statusEl.textContent = '⚠️ Secure connection (HTTPS) required for location access.';
         }
         if (retryBtn) {
-            retryBtn.textContent = 'HTTPS Required';
+            retryBtn.textContent = 'Switching to HTTPS...';
+            retryBtn.disabled = true;
+        }
+        location.replace('https:' + window.location.href.substring(window.location.protocol.length));
+        return;
+    }
+
+    // In-app browser detection (WhatsApp, Instagram, Telegram, Facebook, Gmail)
+    const ua = navigator.userAgent || '';
+    const isWebView = /FBAN|FBAV|Instagram|WhatsApp|Telegram|Line|Twitter|Snapchat|LinkedIn|MicroMessenger|GSA/i.test(ua) || ua.includes('wv');
+    if (isWebView) {
+        if (statusEl) {
+            statusEl.className = 'location-gate-status error';
+            statusEl.textContent = '⚠️ In-app browser detected';
+        }
+        if (guideEl) {
+            guideEl.style.display = 'block';
+            guideEl.innerHTML = `
+                <div class="location-gate-steps">
+                    <strong>In-app browsers (like WhatsApp/Instagram) do not support location prompts:</strong>
+                    <ol>
+                        <li>Tap the <strong>⋮ (three dots)</strong> or Share icon in the top/bottom corner.</li>
+                        <li>Select <strong>"Open in Chrome"</strong> or <strong>"Open in Safari / Browser"</strong>.</li>
+                    </ol>
+                </div>
+            `;
+        }
+        if (retryBtn) {
+            retryBtn.textContent = 'Please Open in Chrome / Safari';
             retryBtn.disabled = true;
         }
         return;
@@ -157,14 +213,6 @@ function requestRealtimeGPS(userInitiated = false) {
         }
         if (retryBtn) retryBtn.style.display = 'none';
         return;
-    }
-
-    if (statusEl) {
-        statusEl.className = 'location-gate-status loading';
-        statusEl.textContent = '📡 Acquiring device location...';
-    }
-    if (retryBtn) {
-        retryBtn.textContent = 'Verifying Location...';
     }
 
     const handleSuccess = async (position) => {
@@ -186,8 +234,11 @@ function requestRealtimeGPS(userInitiated = false) {
             statusEl.className = 'location-gate-status';
             statusEl.textContent = `✅ Location verified (±${accuracy}m). Loading website...`;
         }
+        if (guideEl) {
+            guideEl.style.display = 'none';
+        }
         if (retryBtn) {
-            retryBtn.textContent = 'Location Verified';
+            retryBtn.textContent = '✅ Location Verified';
             retryBtn.disabled = true;
         }
 
@@ -227,64 +278,98 @@ function requestRealtimeGPS(userInitiated = false) {
 
     const handleError = (error) => {
         isRequestingLocation = false;
-        console.log('Location access error:', error.code, error.message);
+        console.warn('Location error:', error.code, error.message);
         if (retryBtn) {
             retryBtn.disabled = false;
-            retryBtn.textContent = 'Allow Location Access';
+            retryBtn.textContent = '📍 Allow Location Access';
         }
-        if (statusEl) {
-            statusEl.className = 'location-gate-status error';
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    statusEl.textContent = '❌ Location access denied. Please tap the lock/tune icon 🔒 in your browser URL bar, set Location to "Allow", and tap the button below.';
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    statusEl.textContent = '❌ Device location unavailable. Ensure your phone\'s Location/GPS toggle is ON in quick settings, then tap the button below.';
-                    break;
-                case error.TIMEOUT:
-                    statusEl.textContent = '❌ Location request timed out. Please tap "Allow Location Access" below.';
-                    break;
-                default:
-                    statusEl.textContent = '❌ Location access required to load this website. Tap the button below to allow access.';
-                    break;
-            }
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                showDeniedInstructions();
+                break;
+            case error.POSITION_UNAVAILABLE:
+                if (statusEl) {
+                    statusEl.className = 'location-gate-status error';
+                    statusEl.textContent = '❌ Phone GPS is turned off. Please enable Location in your phone quick settings, then tap above.';
+                }
+                break;
+            case error.TIMEOUT:
+                if (statusEl) {
+                    statusEl.className = 'location-gate-status error';
+                    statusEl.textContent = '❌ Request timed out. Tap "Allow Location Access" to try again.';
+                }
+                break;
+            default:
+                if (statusEl) {
+                    statusEl.className = 'location-gate-status error';
+                    statusEl.textContent = '❌ Location required. Please tap "Allow Location Access" below.';
+                }
+                break;
         }
     };
 
-    // Attempt 1: High-accuracy hardware GPS
-    navigator.geolocation.getCurrentPosition(
-        handleSuccess,
-        (err) => {
-            console.warn('High-accuracy GPS attempt failed/timed out, falling back to device network positioning...', err.message);
-            // Attempt 2: Fallback to device cellular / Wi-Fi positioning (Fused Location Provider)
-            navigator.geolocation.getCurrentPosition(
-                handleSuccess,
-                handleError,
-                { enableHighAccuracy: false, timeout: 12000, maximumAge: 30000 }
-            );
-        },
-        { enableHighAccuracy: true, timeout: 6000, maximumAge: 30000 }
-    );
-}
+    function startLocationRequest() {
+        if (isRequestingLocation) return;
+        isRequestingLocation = true;
 
-// Request location immediately upon load
-requestRealtimeGPS();
+        if (statusEl) {
+            statusEl.className = 'location-gate-status loading';
+            statusEl.textContent = '📡 Requesting device location...';
+        }
+        if (retryBtn) {
+            retryBtn.disabled = true;
+            retryBtn.textContent = 'Waiting for Permission...';
+        }
+        if (guideEl) {
+            guideEl.style.display = 'none';
+        }
 
-// Retry / enable button event (explicit user gesture)
-document.getElementById('location-retry-btn')?.addEventListener('click', () => {
-    requestRealtimeGPS(true);
-});
+        // Step 1: High accuracy GPS
+        navigator.geolocation.getCurrentPosition(
+            handleSuccess,
+            (err) => {
+                console.warn('High-accuracy GPS attempt failed/timed out, attempting cellular/Wi-Fi positioning...', err.message);
+                if (err.code === err.PERMISSION_DENIED) {
+                    handleError(err);
+                    return;
+                }
+                // Step 2: Fallback to device Wi-Fi/Cellular positioning
+                navigator.geolocation.getCurrentPosition(
+                    handleSuccess,
+                    handleError,
+                    { enableHighAccuracy: false, timeout: 12000, maximumAge: 60000 }
+                );
+            },
+            { enableHighAccuracy: true, timeout: 7000, maximumAge: 30000 }
+        );
+    }
 
-// Watch permission changes (e.g. if user enables it in address bar)
-if (navigator.permissions && navigator.permissions.query) {
-    navigator.permissions.query({ name: 'geolocation' }).then((status) => {
-        status.onchange = () => {
+    // Attach click handler (User Gesture required by mobile browsers)
+    retryBtn?.addEventListener('click', () => {
+        startLocationRequest();
+    });
+
+    // Check if permission was already granted previously
+    if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: 'geolocation' }).then((status) => {
             if (status.state === 'granted') {
-                requestRealtimeGPS();
+                // If user already granted permission, auto-fetch and load
+                startLocationRequest();
+            } else if (status.state === 'denied') {
+                showDeniedInstructions();
             }
-        };
-    }).catch(() => {});
+            status.onchange = () => {
+                if (status.state === 'granted') {
+                    startLocationRequest();
+                } else if (status.state === 'denied') {
+                    showDeniedInstructions();
+                }
+            };
+        }).catch(() => {});
+    }
 }
+
+initLocationGate();
 
 /* ── Contact Form Submission Handler ── */
 contactForm?.addEventListener('submit', async (e) => {
